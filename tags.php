@@ -28,7 +28,8 @@ echo "<th> localIP </th>";
 echo "<th> Temp </th>";
 echo "<th> Pres </th>";
 echo "<th> battery_Vcc </th>";
-echo "<th> localTime </th>";
+echo "<th> DeviceTime </th>";
+echo "<th> CloudTime </th>";
 echo "</tr></thead>\n";
 if ($listTxt) {
     $now = time();
@@ -37,8 +38,10 @@ if ($listTxt) {
 	$tagValue = file_get_contents($sub);
         $obj = json_decode($tagValue);
 	$tim_stmp = $obj->{'localTime'} - 9*3600;
-        if(($now-$tim_stmp) > 600){
+        if(($now-$tim_stmp) > 24 * 3600){
             echo "<tr bgcolor=#AAAAAA>";
+        } else if(($now-$tim_stmp) > 600){
+            echo "<tr bgcolor=#FFAAAA>";
         } else {
             echo "<tr>";
         }
@@ -53,6 +56,7 @@ if ($listTxt) {
         echo "<td>" . $obj->{'pressure_hpa'} . "</td>\n";
         echo "<td>" . $obj->{'battery_Vcc'} . "</td>\n";
         echo "<td>" . strftime("%D %T", (int)$tim_stmp) . "</td>\n";
+        echo "<td>" . strftime("%D %T", filemtime($sub)) . "</td>\n";
         echo "</tr>";
     }
 }
