@@ -23,4 +23,4 @@ Fertures:
     - last 20 lines view 
 
 Test site URL :
-- http://test.tinywebdb.org/
+- http://sensor.digilib.org/
